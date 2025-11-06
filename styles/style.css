@@ -690,7 +690,25 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     text-align: center;
+    letter-spacing: 1.2px;
 }
+
+.footer .footer-bottom a {
+    color: #b388ff; /* мягкий фиолетовый */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.footer .footer-bottom a:hover {
+    color: #d2a8ff; /* чуть ярче при наведении */
+}
+
+.footer .footer-bottom .plain {
+  font-family: system-ui, Arial, sans-serif;
+  font-weight: 400;
+}
+
 
 .social-icons {
     display: flex;
@@ -2046,17 +2064,6 @@ body {
 }
 
 
-/* ОПТИМИЗАЦИЯ ДЛЯ IOS SAFARI */
-@supports (-webkit-touch-callout: none) {
-    .hero {
-        min-height: -webkit-fill-available;
-    }
-    
-    .fixed-nav {
-        backdrop-filter: saturate(180%) blur(20px);
-        -webkit-backdrop-filter: saturate(180%) blur(20px);
-    }
-}
 
 /* УЛУЧШЕНИЕ РЕНДЕРИНГА ШРИФТОВ НА МОБИЛЬНЫХ */
 @media (max-width: 768px) {
@@ -2077,8 +2084,8 @@ body {
   .hero {
     position: relative !important; /* обязательно */
     overflow: visible; /* если раньше был hidden — убираем обрезку */
-    min-height: 70vh; /* можно подогнать под дизайн */
-    padding-bottom: 0; /* чтобы картинка точно касалась низа */
+    min-height: 73vh; /* можно подогнать под дизайн */
+    padding-bottom: env(safe-area-inset-bottom);
   }
 
   /* текст над картинкой (чтобы не перекрывала содержание) */
@@ -2104,6 +2111,7 @@ body {
     z-index: 2 !important;        /* ниже текста, выше фона */
     pointer-events: none;         /* чтобы не мешала тапам */
   }
+
 
   /* Если хочешь, чтобы картинка "касалась" именно видимой границы экрана (без отступов),
      убери у .hero padding-bottom или сделай padding-bottom: env(safe-area-inset-bottom); */
@@ -2169,6 +2177,7 @@ body {
 
 /* ДЛЯ СРЕДНИХ ЭКРАНОВ (iPhone 14/15 Pro) */
 @media (min-width: 391px) and (max-width: 430px) {
+
     .title-line:nth-child(1) {
         font-size: clamp(3rem, 12vw, 5rem);
     }
@@ -2199,4 +2208,100 @@ body {
         font-size: clamp(1.6rem, 5vw, 2.8rem);
         margin-left: 2rem;
     }
+}
+
+a, a:visited, a:active {
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-family: inherit !important;
+  -webkit-tap-highlight-color: transparent; 
+}
+
+/* =================== iPhone OPTIMIZATION =================== */
+/* Работает на iPhone 11,12,13,14,15 и Safari */
+@supports (-webkit-touch-callout: none) {
+
+  /* HERO SECTION */
+  .hero {
+    min-height: calc(90vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    position: relative !important;
+    overflow: hidden;
+  }
+
+  /* HERO IMAGE — вокруг неё убираем тяжелые эффекты */
+  .hero-image {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: auto !important;
+    max-width: 92% !important;
+    height: auto !important;
+    max-height: 50vh !important;
+    object-fit: contain !important;
+    object-position: center bottom !important;
+    z-index: 2 !important;
+    pointer-events: none;
+    backface-visibility: hidden;
+    filter: none !important;             /* убираем любые фильтры */
+    box-shadow: none !important;         /* убираем тени */
+    outline: none !important;  
+
+              /* убираем обводки */
+  }
+
+  
+
+  /* HERO TEXT — сохраняем подсветку */
+  .hero-content,
+  .hero-text,
+  .hero-title {
+    position: relative;
+    z-index: 3;
+    text-shadow: 0 0 10px rgba(139, 92, 246, 0.5); /* оставляем glow */
+  }
+
+  /* FIXED NAV & LOGO */
+  .fixed-nav, .fixed-logo {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+
+
+  /* Убираем тяжелые pseudo-элементы */
+  .hero::before,
+  .hero::after {
+    display: none !important;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeSpeed;
+  }
+
+  /* LANDSCAPE */
+  @media (max-width: 768px) and (orientation: landscape) {
+    .hero {
+      min-height: auto !important;
+      padding: 70px 15px 15px !important;
+    }
+
+    .hero-image {
+      max-height: 40vh !important;
+    }
+
+    .hero-content {
+      flex-direction: row !important;
+      text-align: left !important;
+      gap: 0.5rem !important;
+    }
+
+    .title-line {
+      font-size: clamp(1.8rem, 6vw, 2.5rem) !important;
+      white-space: nowrap !important;
+      letter-spacing: 0 !important;
+    }
+  }
 }
