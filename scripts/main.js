@@ -1,6 +1,24 @@
 // Простой отладочный код
 console.log('JavaScript подключен!');
 
+// Базовая защита от инспектирования (опционально)
+document.addEventListener('contextmenu', function(e) {
+    if (!localStorage.getItem('portfolio_authenticated')) {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey && e.shiftKey && e.key === 'I') || 
+        (e.ctrlKey && e.key === 'u') ||
+        (e.key === 'F12')) {
+        if (!localStorage.getItem('portfolio_authenticated')) {
+            e.preventDefault();
+            return false;
+        }
+    }
+});
+
 // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ДЛЯ СКРОЛЛА
 function handleMenuClick(e) {
     e.preventDefault(); // Отменяем стандартное поведение
@@ -149,3 +167,55 @@ document.addEventListener('DOMContentLoaded', function() {
     document.head.appendChild(style);
 });
 
+// Парольная защита
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordOverlay = document.getElementById('password-overlay');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const passwordError = document.getElementById('password-error');
+    
+    // Проверяем, был ли пользователь уже авторизован
+    const isAuthenticated = localStorage.getItem('portfolio_authenticated');
+    
+    if (isAuthenticated === 'true') {
+        passwordOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+    } else {
+        passwordOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+    
+    // Функция проверки пароля
+    function checkPassword() {
+        const password = passwordInput.value.trim();
+        
+        // Замените 'yourpassword' на ваш реальный пароль
+        if (password === '2222') {
+            // Правильный пароль
+            localStorage.setItem('portfolio_authenticated', 'true');
+            passwordOverlay.style.display = 'none';
+            document.body.style.overflow = '';
+        } else {
+            // Неверный пароль
+            passwordError.style.display = 'flex';
+            passwordInput.style.borderColor = '#ef4444';
+            passwordInput.value = '';
+            setTimeout(() => {
+                passwordError.style.display = 'none';
+                passwordInput.style.borderColor = 'rgba(139, 92, 246, 0.3)';
+            }, 3000);
+        }
+    }
+    
+    // События
+    passwordSubmit.addEventListener('click', checkPassword);
+    
+    passwordInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+    
+    // Фокус на инпут при загрузке
+    passwordInput.focus();
+});

@@ -5,6 +5,10 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" 
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" 
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Digital Product Builder</title>
 </head>
 <body>
@@ -321,9 +325,15 @@
         <footer class="footer" id="footer">
             <div class="footer-content">
                 <div class="social-icons">
-                    <a href="https://t.me/oksyol" target="_blank" class="social-icon"><i class="fab fa-telegram"></i></a>
-                    <a href="https://www.instagram.com/oksyol1/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="https://github.com/oksyoldev" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="https://t.me/oksyol" target="_blank" class="social-icon" aria-label="Telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
+                    <a href="https://www.instagram.com/oksyol1/" target="_blank" class="social-icon" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://github.com/oksyoldev" target="_blank" class="social-icon" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
                 </div>
                 
                 <div class="footer-bottom">
@@ -334,7 +344,35 @@
             </div>
         </footer>
     </div>
-
+<!-- Парольный экран -->
+<div id="password-overlay" class="password-overlay">
+    <div class="password-modal">
+        <div class="password-header">
+            <img src="assets/images/logo.png" class="password-logo" alt="Logo">
+            <h2>Oksyol Production</h2>
+        </div>
+        
+        <div class="password-content">
+            <p>Этот сайт находится в режиме разработки. Для доступа введите пароль:</p>
+            
+            <div class="password-input-group">
+                <input type="password" id="password-input" placeholder="Введите пароль" class="password-input">
+                <button id="password-submit" class="password-submit">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div id="password-error" class="password-error">
+                <i class="fas fa-exclamation-circle"></i>
+                Неверный пароль
+            </div>
+        </div>
+        
+        <div class="password-footer">
+            <p>Если вы забыли пароль, свяжитесь со мной в Telegram</p>
+        </div>
+    </div>
+</div>
     <script src="scripts/main.js"></script>
 </body>
 </html>
