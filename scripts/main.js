@@ -219,3 +219,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Фокус на инпут при загрузке
     passwordInput.focus();
 });
+

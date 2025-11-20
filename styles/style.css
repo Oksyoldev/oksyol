@@ -178,6 +178,9 @@ body {
     object-position: center bottom;
     z-index: 1;
     max-width: 60%;
+    padding: 60px;
+    margin: -50px; 
+    box-sizing: content-box;
 }
 
 /* Остальные стили остаются без изменений */
@@ -2082,39 +2085,74 @@ body {
 @media (max-width: 768px) {
   /* привязываем контейнер */
   .hero {
-    position: relative !important; /* обязательно */
-    overflow: visible; /* если раньше был hidden — убираем обрезку */
-    min-height: 73vh; /* можно подогнать под дизайн */
-    padding-bottom: env(safe-area-inset-bottom);
+    position: relative !important;
+    overflow: hidden; /* важно оставить hidden чтобы не было скролла */
+    min-height: 73vh;
+    padding-bottom: 0 !important; /* УБИРАЕМ ВСЕ PADDING снизу */
+    margin-bottom: 0 !important;
   }
 
-  /* текст над картинкой (чтобы не перекрывала содержание) */
+  /* текст над картинкой */
   .hero-content,
   .hero-text,
   .hero-title {
     position: relative;
-    z-index: 3; /* текст сверху */
+    z-index: 3;
+    margin-bottom: 0 !important;
   }
 
   /* само изображение — приклеено к низу контейнера */
   .hero-image {
     position: absolute !important;
-    bottom: 0 !important;         /* приклеено к внизу .hero */
+    bottom: 0 !important;         /* приклеено к самому низу .hero */
     left: 50% !important;
-    transform: translateX(-50%) !important; /* центрируем по горизонтали */
+    transform: translateX(-50%) !important;
     width: auto !important;
-    max-width: 92% !important;    /* не вылазит за экран */
+    max-width: 92% !important;
     height: auto !important;
-    max-height: 50vh !important;  /* ограничим высоту на мобилке */
-    object-fit: contain !important;/* чтобы не обрезать важное */
+    max-height: 50vh !important;
+    object-fit: contain !important;
     object-position: center bottom !important;
-    z-index: 2 !important;        /* ниже текста, выше фона */
-    pointer-events: none;         /* чтобы не мешала тапам */
+    z-index: 2 !important;
+    pointer-events: none;
+    /* УБИРАЕМ ВСЕ ОТСТУПЫ И MARGIN */
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
+  /* Убираем возможные отступы у родительских контейнеров */
+  .hero-content {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
 
-  /* Если хочешь, чтобы картинка "касалась" именно видимой границы экрана (без отступов),
-     убери у .hero padding-bottom или сделай padding-bottom: env(safe-area-inset-bottom); */
+/* ДОПОЛНИТЕЛЬНЫЙ ФИКС ДЛЯ IPHONE */
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 768px) {
+    .hero {
+      min-height: -webkit-fill-available; /* занимает всю доступную высоту */
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+    
+    .hero-image {
+      bottom: -1px !important; /* микро-фикс для точного позиционирования */
+    }
+  }
+}
+
+/* ФИКС ДЛЯ LANDSCAPE */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero {
+    min-height: 100vh;
+    height: auto;
+  }
+  
+  .hero-image {
+    max-height: 40vh !important;
+    bottom: 0 !important;
+  }
 }
 
 /* ДОБАВЛЯЕМ ЛЕСТЕНКУ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
